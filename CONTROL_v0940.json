@@ -1,0 +1,19 @@
+{
+  "registros": 233,
+  "extremos": 466,
+  "con_zona_representativa": 367,
+  "sin_zona": 99,
+  "metodos": {
+    "COLONIA_NORMALIZADA_EN_MUNICIPIO": 44,
+    "COLONIA_MUNICIPIO_DECLARADOS": 196,
+    "COLONIA_DECLARADA_OTRA_ALCALDIA": 46,
+    "SIN_COLONIA_IDENTIFICADA": 99,
+    "REFERENCIA_PUNTUAL_VALIDADA": 1,
+    "REFERENCIA_VIAL_APROXIMADA": 14,
+    "COLONIA_CODIFICACION_ANTERIOR": 38,
+    "REFERENCIA_PUNTUAL_CARTOGRAFICA": 27,
+    "COLONIA_FUZZY_REVISAR": 1
+  },
+  "kml_ids": 786,
+  "advertencia": "ZONA REPRESENTATIVA no equivale a coordenada exacta ni a verificación independiente de colonia. No se modifican datos oficiales."
+}
