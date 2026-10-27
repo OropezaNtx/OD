@@ -14,7 +14,7 @@ Este es un **paso de validacion adicional** al prototipo v09.40. No modifica `re
 
 ## Ejecutar en Windows
 
-Los archivos nuevos van en la misma carpeta que `DIA8_233.xlsx`, `Zonas_Buenavista_v1.kml`, `geometry.py` y `xlsx_read.py`. Ejecutar `EJECUTAR_VALIDACION_WINDOWS.bat` o:
+Los archivos nuevos van en la misma carpeta que `DIA8_233.xlsx`, `Zonas_Buenavista_v1.kml`, `geometry.py` y `xlsx_read.py`. Desde una terminal abierta en esa carpeta, ejecutar Python directamente:
 
 ```bat
 python validar_zonas_od.py --base "DIA8_233.xlsx" --kml "Zonas_Buenavista_v1.kml" --puntos "PUNTOS_CONFIRMADOS.csv" --salida "SALIDA_KML_CATALOGO"
@@ -29,7 +29,7 @@ Solo necesita Python estándar. Si `PUNTOS_CONFIRMADOS.csv` todavía no existe, 
    - `Radio_m`: incertidumbre en metros, por ejemplo 30 para un punto concreto o mayor para una referencia extensa; no inventar precision.
    - `Fuente`: cartografía abierta, levantamiento de campo u otra fuente trazable.
    - `Evidencia`: identificador, enlace o justificación de cómo se comprobó la ubicación.
-3. Guardar una copia como CSV UTF-8, llamada `PUNTOS_CONFIRMADOS.csv`, en la carpeta principal del proyecto y volver a ejecutar el BAT. Las filas con esos campos vacíos se omiten.
+3. Guardar una copia como CSV UTF-8, llamada `PUNTOS_CONFIRMADOS.csv`, en la carpeta principal del proyecto y volver a ejecutar el comando Python anterior. Las filas con esos campos vacíos se omiten.
 
 ## Archivos de salida
 
