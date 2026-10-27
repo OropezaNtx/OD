@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 
 from geometry import Zones
-from validar_zonas_od import catalog_index, validacion
+from validar_zonas_od import catalog_index, validacion, generate
 
 KML='''<?xml version="1.0"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document>
 <Placemark><name>2025</name><Polygon><outerBoundaryIs><LinearRing><coordinates>-99.17,19.43 -99.16,19.43 -99.16,19.44 -99.17,19.44 -99.17,19.43</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark>
@@ -73,6 +73,36 @@ class Tests(unittest.TestCase):
         result=validacion(od,[self.point],self.zones,self.catalog,self.by_col)
         self.assertEqual('ZONA_GEOGRAFICA_Y_CATALOGO_OK',result['Estado'])
         self.assertEqual('SI',result['Coincide_CP'])
+
+class IntegracionArchivosReales(unittest.TestCase):
+    """Prueba con los archivos del repositorio, sin depender de puntos externos."""
+    @classmethod
+    def setUpClass(cls):
+        cls.root = Path(__file__).resolve().parent
+        cls.base = cls.root / 'DIA8_233.xlsx'
+        cls.kml = cls.root / 'Zonas_Buenavista_v1.kml'
+
+    def test_kml_real_contiene_referencia_sullivan(self):
+        # Caso de referencia corroborado por el equipo: Jardín del Arte Sullivan.
+        zones = Zones(self.kml)
+        geo = zones.query(19.43303, -99.16201, margin=0)
+        self.assertIn('2025', geo['zonas_interiores'],
+                      'El punto de referencia Sullivan ya no cae en zona 2025; revisar KML/coordenada.')
+
+    def test_233_encuestas_reales_sin_puntos_no_inventan_zona(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / 'auditoria'
+            report = generate(
+                self.base, self.kml,
+                Path(tmp) / 'sin_puntos.csv', output)
+            self.assertEqual(233, report['registros'])
+            self.assertEqual(466, report['extremos'])
+            self.assertEqual(0, report['puntos_recibidos'])
+            self.assertEqual(0, report['zonas_propuestas_con_punto_documentado'])
+            self.assertEqual(466, report['estados'].get('SIN_PUNTO', 0))
+            self.assertTrue((output / 'AUDITORIA_KML_CATALOGO.csv').exists())
+            self.assertTrue((output / 'PLANTILLA_PUNTOS_A_LOCALIZAR.csv').exists())
+
 
 if __name__=='__main__':
     unittest.main(verbosity=2)
